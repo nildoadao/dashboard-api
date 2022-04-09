@@ -3,13 +3,11 @@
  <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      
-      google.charts.load('current', {'packages':['table']});
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawPieChart);
-      google.charts.setOnLoadCallback(drawTable);
     
-      async function drawTable() {            
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+    
+      async function drawChart() {            
         var servers = await getServerCount();
         var data = new google.visualization.DataTable(); 
         data.addColumn('string', 'Ambiente');
@@ -22,12 +20,8 @@
           ['TOTAL', servers["TOTAL"]]
         ]);    
         var table = new google.visualization.Table(document.getElementById('table_div'));
-        table.draw(data, {width: '40%', height: '40%'});
-      }
 
-      async function drawPieChart(){
-        var servers = await getServerCount();
-        var data = google.visualization.arrayToDataTable([
+        var pie_data = google.visualization.arrayToDataTable([
           ['DEV', servers["DEV"]],
           ['QA', servers["QA"]],
           ['UAT', servers["UAT"]],
@@ -39,7 +33,8 @@
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
-        chart.draw(data, options);
+        chart.draw(pie_data, options);
+        table.draw(data, {width: '40%', height: '40%'});
       }
 
       async function getServerCount(){

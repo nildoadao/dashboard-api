@@ -8,7 +8,7 @@
       google.charts.setOnLoadCallback(drawTable);
     
       function drawTable() {
-        var numServers = getNumberofServer();
+        var numServers = await getNumberofServer();
         var data = new google.visualization.DataTable();       
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
@@ -20,7 +20,7 @@
           ['TOTAL', parseInt(numServers)]
         ]);    
         var table = new google.visualization.Table(document.getElementById('table_div'));
-        table.draw(data, {showRowNumber: true, width: '50%', height: '50%'});
+        table.draw(data, {width: '40%', height: '40%'});
       }
 
       async function getNumberofServer(){

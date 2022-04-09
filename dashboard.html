@@ -8,23 +8,22 @@
       google.charts.setOnLoadCallback(drawTable);
     
       async function drawTable() {
-        var numServers = await getNumberofServer();
-        var data = new google.visualization.DataTable();       
+        var servers = await getServerCount();      
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
         data.addRows([
-          ['DEV', 100],
-          ['QA', 100],
-          ['UAT', 100],
-          ['CERT', 100],
-          ['TOTAL', numServers]
+          ['DEV', servers["DEV"]],
+          ['QA', servers["QA"]],
+          ['UAT', servers["UAT"]],
+          ['CERT', servers["CERT"]],
+          ['TOTAL', servers["TOTAL"]]
         ]);    
         var table = new google.visualization.Table(document.getElementById('table_div'));
         table.draw(data, {width: '40%', height: '40%'});
       }
 
-      async function getNumberofServer(){
-          let response = await fetch('http://192.168.0.150/api/getServerCount.php');
+      async function getServerCount(){
+          let response = await fetch('http://192.168.0.150/api/get-servers-count.php');
           var count = await response.json();
           return count;
       }

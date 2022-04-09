@@ -32,12 +32,14 @@ switch ($_SERVER["REQUEST_METHOD"]){
         $servers_count['QA'] = get_server_by_amb('QA');
         $servers_count['CERT'] = get_server_by_amb("CERT");
         $servers_count['UAT'] = get_server_by_amb('UAT');
+        header("Content-Type: application/json; charset=UTF-8");
         $response_data = json_encode( $servers_count);
         echo $response_data;
         break;
 
     default:
         http_response_code(405);
+        header("Content-Type: application/json; charset=UTF-8");
         echo "Método não permitido";
         break;
 }
@@ -74,6 +76,7 @@ function get_number_of_servers(){
 
     } catch(Exception $e) {
         echo "Falha ao conectar no banco" . $e->getMessage();
+        header("Content-Type: application/json; charset=UTF-8");
         http_response_code(500);
         close_connection($connection);
         exit();
@@ -113,6 +116,7 @@ function get_server_by_amb($ambiente){
 
     } catch(Exception $e) {
         echo "Falha ao conectar no banco" . $e->getMessage();
+        header("Content-Type: application/json; charset=UTF-8");
         http_response_code(500);
         close_connection($connection);
         exit();

@@ -8,6 +8,7 @@
 
       function drawTable() {
         var data = new google.visualization.DataTable();
+        var numServers = getNumberofServer();
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
         data.addRows([
@@ -15,9 +16,8 @@
           ['QA', 100],
           ['UAT', 100],
           ['CERT', 100],
-          ['TOTAL', getNumberofServer()]
-        ]);
-
+          ['TOTAL', numServers]
+        ]);    
         var table = new google.visualization.Table(document.getElementById('table_div'));
         table.draw(data, {showRowNumber: true, width: '50%', height: '50%'});
       }

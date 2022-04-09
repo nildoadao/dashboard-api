@@ -44,12 +44,12 @@ switch ($_SERVER["REQUEST_METHOD"]){
 
 function get_number_of_servers(){
     $connection = build_connection();
-    $query = "SELECT COUNT(primary_key) as total FROM hostdb";
+    $query = "SELECT COUNT(*) as total FROM hostdb";
     try{
         $statement = $connection->prepare($query);
 
         if($statement === false){
-            echo "Falha ao conectar no banco";
+            echo "Falha ao preparar query";
             http_response_code(500);
             exit();
         }
@@ -82,13 +82,13 @@ function get_number_of_servers(){
 
 function get_server_by_amb($ambiente){
     $connection = build_connection();
-    $query = "SELECT COUNT(primary_key) as total FROM hostdb WHERE ambiente=?";
+    $query = "SELECT COUNT(*) as total FROM hostdb WHERE ambiente=?";
     try{
         $statement = $connection->prepare($query);
         $statement->bind_param("s", $ambiente);
 
         if($statement === false){
-            echo "Falha ao conectar no banco";
+            echo "Falha ao preparar query";
             http_response_code(500);
             exit();
         }

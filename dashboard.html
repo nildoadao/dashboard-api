@@ -3,12 +3,13 @@
  <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      
+      var servers = await getServerCount();
       google.charts.load('current', {'packages':['table']});
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawPieChart);
       google.charts.setOnLoadCallback(drawTable);
     
-      async function drawTable() {
-        var servers = await getServerCount();     
+      async function drawTable() {            
         var data = new google.visualization.DataTable(); 
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
@@ -23,6 +24,22 @@
         table.draw(data, {width: '40%', height: '40%'});
       }
 
+      async function drawPieChart(){
+        var data = google.visualization.arrayToDataTable([
+          ['DEV', servers["DEV"]],
+          ['QA', servers["QA"]],
+          ['UAT', servers["UAT"]],
+          ['CERT', servers["CERT"]]
+        ]);
+
+        var options = {
+          title: 'Servidores por Ambiente'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('pie_div'));
+        chart.draw(data, options);
+      }
+
       async function getServerCount(){
           let response = await fetch('http://192.168.0.150/api/get-servers-count.php');
           var count = await response.json();
@@ -33,5 +50,6 @@
  </head>
  <body>
     <div id="table_div"></div>
+    <div id="pie_div"></div>
  </body>
 </html>

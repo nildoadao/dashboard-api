@@ -8,7 +8,8 @@
       google.charts.setOnLoadCallback(drawTable);
     
       async function drawTable() {
-        var servers = await getServerCount();      
+        var servers = await getServerCount();     
+        var data = new google.visualization.DataTable(); 
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
         data.addRows([

@@ -7,7 +7,7 @@
       google.charts.load('current', {'packages':['table']});
       google.charts.setOnLoadCallback(drawTable);
     
-      function drawTable() {
+      async function drawTable() {
         var numServers = await getNumberofServer();
         var data = new google.visualization.DataTable();       
         data.addColumn('string', 'Ambiente');

@@ -12,13 +12,12 @@
         var data = new google.visualization.DataTable();       
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
-        var totalRow = ['TOTAL', numServers];
         data.addRows([
           ['DEV', 100],
           ['QA', 100],
           ['UAT', 100],
           ['CERT', 100],
-          totalRow
+          ['TOTAL', parseint(numServers)]
         ]);    
         var table = new google.visualization.Table(document.getElementById('table_div'));
         table.draw(data, {showRowNumber: true, width: '50%', height: '50%'});

@@ -58,16 +58,14 @@ function get_number_of_servers(){
             $params = array();
             while ($field = $metadata->fetch_field())
             {
-                //$params[] = &$result['Total'][$field->name];
-                $count = $field->name["COUNT(*)"];
+                $params[] = &$result[$i][$field->name];
             }
             call_user_func_array(array($statement, 'bind_result'), $params);
             $statement->fetch();
         }
-        $result['Total'] = $count;
         $statement->close();
         close_connection($connection);
-        return $result;
+        return $result["COUNT(*)"];
 
     } catch(Exception $e) {
         echo "Falha ao conectar no banco" . $e->getMessage();

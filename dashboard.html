@@ -24,7 +24,7 @@
 
       async function getNumberofServer(){
           let response = await fetch('http://192.168.0.150/api/getServerCount.php');
-          let data = await response;
+          let data = await response.json();
           return data;
       }
 

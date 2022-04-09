@@ -3,13 +3,14 @@
  <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-      var servers = await getServerCount();
+      
       google.charts.load('current', {'packages':['table']});
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawPieChart);
       google.charts.setOnLoadCallback(drawTable);
     
       async function drawTable() {            
+        var servers = await getServerCount();
         var data = new google.visualization.DataTable(); 
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
@@ -25,6 +26,7 @@
       }
 
       async function drawPieChart(){
+        var servers = await getServerCount();
         var data = google.visualization.arrayToDataTable([
           ['DEV', servers["DEV"]],
           ['QA', servers["QA"]],

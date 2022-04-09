@@ -65,7 +65,7 @@ function get_number_of_servers(){
         }
         $statement->close();
         close_connection($connection);
-        return $result["COUNT(*)"];
+        return $result[0]["COUNT(*)"];
 
     } catch(Exception $e) {
         echo "Falha ao conectar no banco" . $e->getMessage();

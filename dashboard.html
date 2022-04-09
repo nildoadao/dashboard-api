@@ -9,7 +9,7 @@
     
       async function drawChart() {            
         var servers = await getServerCount();
-        /*var data = new google.visualization.DataTable(); 
+        var data = new google.visualization.DataTable(); 
         data.addColumn('string', 'Ambiente');
         data.addColumn('number', 'Quantidade');
         data.addRows([
@@ -19,7 +19,7 @@
           ['CERT', servers["CERT"]],
           ['TOTAL', servers["TOTAL"]]
         ]);    
-        var table = new google.visualization.Table(document.getElementById('table_div'));*/
+        var table = new google.visualization.Table(document.getElementById('table_div'));
 
         var pie_data = google.visualization.arrayToDataTable([
           ['Ambiente', 'Quantidade'],

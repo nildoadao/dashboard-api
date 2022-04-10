@@ -6,8 +6,8 @@ switch ($_SERVER["REQUEST_METHOD"]){
 
     case 'POST':
         if(check_request_body()){            
-            add_server();
-            send_response("Servidor adicionado com sucesso !", 201);
+            $result = add_server();
+            send_response(json_encode($result), 201);
         }
 
         else send_response("Solicitação mal formatada", 400);
@@ -52,7 +52,7 @@ function add_server(){
         $connection = build_connection();
         $input = (array) json_decode(file_get_contents("php://input"), TRUE);
         $query = "INSERT INTO hostdb (hostname, ambiente, sistema) VALUES (?,?,?)";
-        $result = db_select($connection, $query, array('sss', $input['hostname'], $input['ambiente'], $input['sistema']));
+        $result = db_query($connection, $query, array('sss', $input['hostname'], $input['ambiente'], $input['sistema']));
         close_connection($connection);
         return $result;
 

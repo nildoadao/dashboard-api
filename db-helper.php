@@ -23,7 +23,7 @@ function close_connection($connection){
     }
 }
 
-function db_select($connection, $query, $params){
+function db_query($connection, $query, $params){
     $statement = $connection->prepare($query);
 
     if($params != null){

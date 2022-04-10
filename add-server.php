@@ -11,7 +11,6 @@ switch ($_SERVER["REQUEST_METHOD"]){
         }
 
         else send_response("Solicitação mal formatada", 400);
-
         break;
 
     default:
@@ -27,28 +26,36 @@ function send_response($content, $status_code){
 
 
 function check_request_body(){
-    try{
-        $input = (array) json_decode(file_get_contents("php://input"), TRUE);
+    $input = (array) json_decode(file_get_contents("php://input"), TRUE);
 
-        if(!isset($input['hostname'])){
+    if(!isset($input['hostname'])){
             return false;
-        }
-        if(!isset($input['ambiente'])){
-            return false;
-        }
-        if(!isset($input['sistema'])){
-            return false;
-        }
-        return true;
-
-    } catch(Exception $e){
-        send_response("Solicitação mal formatada " . $e->getMessage(), 400);
-        exit();
     }
+    if(!isset($input['ambiente'])){
+        return false;
+    }
+    if(!isset($input['sistema'])){
+        return false;
+    }
+    $connection = build_connection();
+    $query = "SELECT * FROM hostdb WHERE hostname=?";
+    $result = db_query($connection, $query, array('s', $input['hostname']));
+    close_connection($connection);
+        
+    if(!empty($result))
+        throw new InvalidArgumentException("Servidor com hostaname: " . $input['hostname'] ." já existe.");
+
+    return true;
 }
 
 function add_server(){ 
     try{
+        
+        if(!check_request_body()){
+            send_response("Solicitação mal formatada.", 400);
+            exit();
+        }
+
         $connection = build_connection();
         $input = (array) json_decode(file_get_contents("php://input"), TRUE);
         $query = "INSERT INTO hostdb (hostname, ambiente, sistema) VALUES (?,?,?)";
@@ -58,6 +65,10 @@ function add_server(){
 
     } catch(Exception $e){
         send_response("Solicitação mal formatada " . $e->getMessage(), 400);
+        close_connection($connection);
+        exit();
+    } catch(InvalidArgumentException $iex){
+        send_response("Falha ao cadastrar servidor: " . $iex->getMessage(), 400);
         close_connection($connection);
         exit();
     }

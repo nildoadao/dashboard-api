@@ -23,9 +23,11 @@ function close_connection($connection){
     }
 }
 
-function refValues(&$arr) // Changed $arr to reference for PHP v7.1.7
+// Função auxiliar para retornar um array de referencias
+// Código de https://www.php.net/manual/pt_BR/mysqli-stmt.bind-param.php
+function refValues(&$arr)
 {
-    if (strnatcmp(phpversion(),'5.3') >= 0) //Reference is required for PHP 5.3+
+    if (strnatcmp(phpversion(),'5.3') >= 0)
     {
         $refs = array();
         foreach($arr as $key => $value)
@@ -62,22 +64,5 @@ function db_query($connection, $query, $params){
     }
     $statement->close();
     return $result;
-}
-
-function db_insert($connection, $query, $param_types, ...$params){
-    $statement = $connection->prepare($query);
-
-    if($param_types != ""){
-        $bind_string = "";
-        $bind_string = $bind_string.join(", ", $params);
-        $statement->bind_param($param_types, $bind_string);
-    }
-
-    if($statement === false){
-        throw new Exception("Falha ao preparar a query");
-    }
-    
-    $statement->execute();
-    $statement->close();
 }
 ?>

@@ -1,4 +1,5 @@
 <?php
+include('bd.php');
 
 function build_connection(){
     try{
@@ -21,7 +22,7 @@ function close_connection($connection){
         mysqli_close($connection);
     }
 }
-function db_query($connection, $query, $param_types, ...$params){
+function db_select($connection, $query, $param_types, ...$params){
     $statement = $connection->prepare($query);
 
     if($param_types != ""){
@@ -50,5 +51,22 @@ function db_query($connection, $query, $param_types, ...$params){
     }
     $statement->close();
     return $result;
+}
+
+function db_insert($connection, $query, $param_types, ...$params){
+    $statement = $connection->prepare($query);
+
+    if($param_types != ""){
+        $bind_string = "";
+        $bind_string = $bind_string.join(", ", $params);
+        $statement->bind_param($param_types, $bind_string);
+    }
+
+    if($statement === false){
+        throw new Exception("Falha ao preparar a query");
+    }
+    
+    $statement->execute();
+    return $statement->rowCount();
 }
 ?>

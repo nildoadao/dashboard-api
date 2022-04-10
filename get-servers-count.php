@@ -1,5 +1,4 @@
 <?php
-include('bd.php');
 include('db-helper.php');
 
 switch ($_SERVER["REQUEST_METHOD"]){
@@ -27,19 +26,19 @@ function get_number_of_servers(){
         $servers_count = array();
 
         $query = "SELECT COUNT(*) as total FROM hostdb WHERE ambiente=?";
-        $result = db_query($connection, $query, "s", "DEV");
+        $result = db_select($connection, $query, "s", "DEV");
         $servers_count['DEV'] = $result[0]['total'];
 
         $query = "SELECT COUNT(*) as total FROM hostdb WHERE ambiente=?";
-        $result = db_query($connection, $query, "s", "QA");
+        $result = db_select($connection, $query, "s", "QA");
         $servers_count['QA'] = $result[0]['total'];
 
         $query = "SELECT COUNT(*) as total FROM hostdb WHERE ambiente=?";
-        $result = db_query($connection, $query, "s", "UAT");
+        $result = db_select($connection, $query, "s", "UAT");
         $servers_count['UAT'] = $result[0]['total'];
 
         $query = "SELECT COUNT(*) as total FROM hostdb WHERE ambiente=?";
-        $result = db_query($connection, $query, "s", "CERT");
+        $result = db_select($connection, $query, "s", "CERT");
         $servers_count['CERT'] = $result[0]['total'];
 
         $servers_count['TOTAL'] = $servers_count['DEV'] + $servers_count['QA'] + $servers_count['UAT'] + $servers_count['CERT'];

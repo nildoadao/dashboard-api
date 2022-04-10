@@ -1,5 +1,4 @@
 <?php
-include('bd.php');
 include('db-helper.php');
 
 
@@ -53,7 +52,7 @@ function add_server(){
         $connection = build_connection();
         $input = (array) json_decode(file_get_contents("php://input"), TRUE);
         $query = "INSERT INTO hostdb (hostname, ambiente, sistema) VALUES (?,?,?)";
-        $result = db_query($connection, $query, "sss", $input['hostname'], $input['ambiente'], $input['sistema']);
+        $result = db_insert($connection, $query, "sss", $input['hostname'], $input['ambiente'], $input['sistema']);
         close_connection($connection);
         return $result;
 

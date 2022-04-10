@@ -2,26 +2,6 @@
 include('bd.php');
 include('db-helper.php');
 
-function build_connection(){
-    try{
-        $connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME);
-        if (mysqli_connect_errno()){
-            send_response("Falha ao conectar no banco " . mysqli_connect_error(), 500);
-            exit();
-        }
-        return $connection;
-    } catch (Exception $e){
-        send_response("Falha ao conectar no banco " . $e->getMessage(), 500);
-        exit();
-    }
-}
-
-function close_connection($connection){
-    if($connection != null){
-        mysqli_close($connection);
-    }
-}
-
 switch ($_SERVER["REQUEST_METHOD"]){
     case 'GET':
         $servers_count = array();

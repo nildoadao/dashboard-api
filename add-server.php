@@ -46,7 +46,7 @@ function check_request_body(){
 
 function add_server(){ 
     try{
-        
+
         if(!check_request_body()){
             send_response("Solicitação mal formatada.", 400);
             exit();
@@ -59,12 +59,12 @@ function add_server(){
         close_connection($connection);
         return $result;
 
-    } catch(Exception $e){
-        send_response("Solicitação mal formatada " . $e->getMessage(), 400);
-        close_connection($connection);
-        exit();
     } catch(InvalidArgumentException $iex){
         send_response("Falha ao cadastrar servidor: " . $iex->getMessage(), 400);
+        close_connection($connection);
+        exit();
+    } catch(Exception $e){
+        send_response("Solicitação mal formatada " . $e->getMessage(), 400);
         close_connection($connection);
         exit();
     }

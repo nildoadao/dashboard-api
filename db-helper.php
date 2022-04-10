@@ -67,6 +67,6 @@ function db_insert($connection, $query, $param_types, ...$params){
     }
     
     $statement->execute();
-    return $statement->rowCount();
+    $statement->close();
 }
 ?>

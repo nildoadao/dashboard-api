@@ -4,11 +4,11 @@ include('db-helper.php');
 
 
 switch ($_SERVER["REQUEST_METHOD"]){  
-      
+
     case 'POST':
         if(check_request_body()){            
             $result = add_server();
-            send_response($result, 202);
+            send_response($result[0], 201);
         }
 
         else send_response("Solicitação mal formatada", 400);

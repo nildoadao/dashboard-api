@@ -22,13 +22,11 @@ function close_connection($connection){
         mysqli_close($connection);
     }
 }
-function db_select($connection, $query, $param_types, ...$params){
+function db_select($connection, $query, $params){
     $statement = $connection->prepare($query);
 
-    if($param_types != ""){
-        $bind_string = "";
-        $bind_string = $bind_string.join(", ", $params);
-        $statement->bind_param($param_types, $bind_string);
+    if($params != null){
+        call_user_func_array(array($statement, 'bind_param'), refValues($params));
     }
 
     if($statement === false){

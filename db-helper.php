@@ -23,11 +23,23 @@ function close_connection($connection){
     }
 }
 
+function refValues(&$arr) // Changed $arr to reference for PHP v7.1.7
+{
+    if (strnatcmp(phpversion(),'5.3') >= 0) //Reference is required for PHP 5.3+
+    {
+        $refs = array();
+        foreach($arr as $key => $value)
+            $refs[$key] = &$arr[$key];
+        return $refs;
+     }
+     return $arr;
+}
+
 function db_query($connection, $query, $params){
     $statement = $connection->prepare($query);
 
     if($params != null){
-        call_user_func_array(array($statement, 'bind_param'), $params);
+        call_user_func_array(array($statement, 'bind_param'), refValues($params));
     }
 
     if($statement === false){
